@@ -32,10 +32,6 @@ namespace Athly.SportEvents.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Point>("Coordinates")
-                        .IsRequired()
-                        .HasColumnType("geography");
-
                     b.Property<string>("Country")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -62,6 +58,11 @@ namespace Athly.SportEvents.Infrastructure.Migrations
                     b.Property<string>("League")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<Point>("Location")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("geography")
+                        .HasComputedColumnSql("geography::Point(Latitude, Longitude, 4326)", true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -96,6 +97,33 @@ namespace Athly.SportEvents.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("SportEvents", (string)null);
+                });
+
+            modelBuilder.Entity("Athly.SportEvents.Domain.SportEventAggregate.SportEvent", b =>
+                {
+                    b.OwnsOne("Athly.SportEvents.Domain.SportEventAggregate.ValueObjects.EventCoordinates", "EventCoordinates", b1 =>
+                        {
+                            b1.Property<Guid>("SportEventId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<double>("Latitude")
+                                .HasColumnType("float")
+                                .HasColumnName("Latitude");
+
+                            b1.Property<double>("Longitude")
+                                .HasColumnType("float")
+                                .HasColumnName("Longitude");
+
+                            b1.HasKey("SportEventId");
+
+                            b1.ToTable("SportEvents");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SportEventId");
+                        });
+
+                    b.Navigation("EventCoordinates")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

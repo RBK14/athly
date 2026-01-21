@@ -6,8 +6,13 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="Events\Commands\" />
-    <Folder Include="Events\Queries\GetEventDetails\" />
+    <Folder Include="SportEvents\Queries\GetSportEventDetails\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" />
+	<PackageReference Include="NetTopologySuite" />
   </ItemGroup>
 
   <PropertyGroup>

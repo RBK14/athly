@@ -3,12 +3,12 @@ using Athly.SportEvents.Domain.Common.Exceptions;
 
 namespace Athly.SportEvents.Domain.SportEventAggregate.ValueObjects;
 
-public class Coordinates : ValueObject
+public class EventCoordinates : ValueObject
 {
-    public double Latitude { get; }
-    public double Longitude { get; }
+    public double Longitude { get; }    // X
+    public double Latitude { get; }     // Y
 
-    private Coordinates(double latitude, double longitude)
+    private EventCoordinates(double longitude, double latitude)
     {
         if (latitude < -90 || latitude > 90)
             throw new DomainException("Latitude must be between -90 and 90 degrees.");
@@ -16,24 +16,22 @@ public class Coordinates : ValueObject
         if (longitude < -180 || longitude > 180)
             throw new DomainException("Longitude must be between -180 and 180 degrees.");
 
-        Latitude = latitude;
         Longitude = longitude;
+        Latitude = latitude;
     }
 
-    public static Coordinates Create(double latitude, double longitude)
+    public static EventCoordinates Create(double longitude, double latitude)
     {
-        return new Coordinates(latitude, longitude);
+        return new EventCoordinates(longitude, latitude);
     }
 
     public override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Latitude;
         yield return Longitude;
+        yield return Latitude;
     }
 
-    public override string ToString() => $"{Latitude}, {Longitude}";
-
 #pragma warning disable CS8618
-    private Coordinates() { }
+    private EventCoordinates() { }
 #pragma warning restore CS8618
 }

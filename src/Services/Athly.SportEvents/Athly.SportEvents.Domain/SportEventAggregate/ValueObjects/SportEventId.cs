@@ -6,7 +6,7 @@ public class SportEventId : ValueObject
 {
     public Guid Value { get; }
 
-    public SportEventId(Guid value)
+    private SportEventId(Guid value)
     {
         if (value == Guid.Empty)
             throw new ArgumentException("Event ID cannot be empty", nameof(value));
@@ -14,8 +14,8 @@ public class SportEventId : ValueObject
         Value = value;
     }
 
-    public static SportEventId Of(Guid value) => new(value);
     public static SportEventId New() => new(Guid.NewGuid());
+    public static SportEventId Of(Guid value) => new(value);
 
     public override IEnumerable<object> GetEqualityComponents()
     {

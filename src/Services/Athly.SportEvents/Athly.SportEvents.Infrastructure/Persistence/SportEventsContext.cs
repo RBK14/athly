@@ -1,9 +1,10 @@
-﻿using Athly.SportEvents.Domain.SportEventAggregate;
+﻿using Athly.SportEvents.Application.Interfaces;
+using Athly.SportEvents.Domain.SportEventAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Athly.SportEvents.Infrastructure.Persistence;
 
-public class SportEventsContext : DbContext
+public class SportEventsContext : DbContext, ISportEventsContext
 {
     public SportEventsContext(DbContextOptions<SportEventsContext> options) : base(options) { }
 

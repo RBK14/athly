@@ -13,6 +13,6 @@ builder.AddProject<Projects.Athly_SportEvents_API>("sportevents-api")
 
 builder.AddProject<Projects.Athly_SportEvents_Worker>("sportevents-worker")
        .WithReference(searchDb);
-//       .WithReference(rabbit);
+       //.WithReference(rabbit);
 
 builder.Build().Run();

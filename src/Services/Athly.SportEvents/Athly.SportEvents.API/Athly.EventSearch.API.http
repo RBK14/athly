@@ -1,6 +1,0 @@
-@Athly.EventSearch.API_HostAddress = http://localhost:5116
-
-GET {{Athly.EventSearch.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

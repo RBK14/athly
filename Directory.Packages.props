@@ -22,6 +22,7 @@
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(NetVersion)" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(NetVersion)" />
 
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(NetVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(NetVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="$(NetVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(NetVersion)" />
