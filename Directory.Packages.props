@@ -1,0 +1,42 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    
+    <AspireVersion>9.0.0</AspireVersion>
+    <NetVersion>9.0.0</NetVersion>
+    <OpenTelemetryVersion>1.10.0</OpenTelemetryVersion>
+    <OpenTelemetryInstrVersion>1.9.0</OpenTelemetryInstrVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="$(AspireVersion)" />
+
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(NetVersion)" />
+    
+    <PackageVersion Include="Microsoft.OpenApi" Version="1.6.14" />
+
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(NetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(NetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(NetVersion)" />
+
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(NetVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="$(NetVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(NetVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(NetVersion)" />
+
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="$(OpenTelemetryInstrVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetryInstrVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryInstrVersion)" />
+
+    <PackageVersion Include="Yarp.ReverseProxy" Version="2.2.0" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.3.4" />
+    <PackageVersion Include="NetTopologySuite" Version="2.5.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageVersion Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+</Project>

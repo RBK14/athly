@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f7768b97-d20e-4ad4-97ce-a1157a3e7338</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="MassTransit.RabbitMQ " />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" />
+	<PackageReference Include="Swashbuckle.AspNetCore" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+	<PackageReference Include="MediatR" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Athly.SportEvents.Application\Athly.SportEvents.Application.csproj" />
+    <ProjectReference Include="..\Athly.SportEvents.Infrastructure\Athly.SportEvents.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Athly.ServiceDefaults\Athly.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

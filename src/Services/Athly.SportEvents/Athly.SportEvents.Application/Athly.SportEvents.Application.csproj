@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Athly.SportEvents.Domain\Athly.SportEvents.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Events\Commands\" />
+    <Folder Include="Events\Queries\GetEventDetails\" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>387fffa1-54f0-4dfe-bc9a-d3b9799652e8</UserSecretsId>
+  </PropertyGroup>
+
+</Project>
