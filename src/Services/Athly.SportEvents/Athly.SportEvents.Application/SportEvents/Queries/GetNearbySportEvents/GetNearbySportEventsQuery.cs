@@ -7,7 +7,7 @@ namespace Athly.SportEvents.Application.SportEvents.Queries.GetNearbySportEvents
         double UserLatitude,
         double UserLongitude,
         double RadiusInKm,
+        string? Sport = null,
         DateTimeOffset? FromDate = null,
-        DateTimeOffset? ToDate = null,
-        string? Sport = null) : IRequest<IEnumerable<SportEventDto>>;
+        DateTimeOffset? ToDate = null) : IRequest<IEnumerable<SportEventDto>>;
 }

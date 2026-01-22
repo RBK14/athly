@@ -4,43 +4,48 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Athly.SportEvents.Application.SportEvents.Queries.GetNearbySportEvents
 {
     public class GetNearbySportEventsHandler(ISportEventsContext context) : IRequestHandler<GetNearbySportEventsQuery, IEnumerable<SportEventDto>>
     {
         private readonly ISportEventsContext _context = context;
-        private readonly GeometryFactory geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+        private readonly GeometryFactory _geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
         public async Task<IEnumerable<SportEventDto>> Handle(GetNearbySportEventsQuery request, CancellationToken cancellationToken)
         {
-            var userLocation = geometryFactory.CreatePoint(new Coordinate(request.UserLongitude, request.UserLatitude));
+            var userLocation = _geometryFactory.CreatePoint(new Coordinate(request.UserLongitude, request.UserLatitude));
             double radiusInMeters = request.RadiusInKm * 1000;
 
-            var dbQuery = _context.SportEvents.AsNoTracking();
+            var query = _context.SportEvents.AsNoTracking();
 
-            dbQuery = dbQuery.Where(e => EF.Property<Point>(e, "Location").IsWithinDistance(userLocation, radiusInMeters));
-
-            if (request.FromDate.HasValue)
-            {
-                dbQuery = dbQuery.Where(e => e.Date >= request.FromDate.Value);
-            }
+            query = query.Where(e => EF.Property<Point>(e, "Location").IsWithinDistance(userLocation, radiusInMeters));
 
             if (!string.IsNullOrWhiteSpace(request.Sport))
             {
-                dbQuery = dbQuery.Where(e => e.Sport == request.Sport);
+                query = query.Where(e => e.Sport == request.Sport);
             }
 
-            var dtos = await dbQuery
+            if (request.FromDate.HasValue)
+            {
+                query = query.Where(e => e.Date >= request.FromDate.Value);
+            }
+
+            if (request.ToDate.HasValue)
+            {
+                query = query.Where(e => e.Date <= request.ToDate.Value);
+            }
+
+            return await query
+                .OrderBy(e => EF.Property<Point>(e, "Location").Distance(userLocation))
                 .Select(e => new SportEventDto(
                     e.Id.Value,
                     e.Name,
                     e.Sport,
                     e.Date,
                     e.Status.ToString(),
-                    e.EventCoordinates.Longitude,
-                    e.EventCoordinates.Latitude,
+                    e.Coordinates.Latitude,
+                    e.Coordinates.Longitude,
                     EF.Property<Point>(e, "Location").Distance(userLocation),
                     e.VenueName,
                     e.City,
@@ -48,11 +53,9 @@ namespace Athly.SportEvents.Application.SportEvents.Queries.GetNearbySportEvents
                     e.League,
                     e.Season,
                     e.Description,
-                    e.ImageUrl))
-                .OrderBy(e => e.DistanceInMeters)
+                    e.ImageUrl
+                ))
                 .ToListAsync(cancellationToken);
-
-            return dtos;
         }
     }
 }

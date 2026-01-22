@@ -1,5 +1,6 @@
 ﻿using Athly.BuildingBlocks.Domain;
 using Athly.SportEvents.Domain.Common.Exceptions;
+using Athly.SportEvents.Domain.Common.ValueObjects;
 using Athly.SportEvents.Domain.SportEventAggregate.Enums;
 using Athly.SportEvents.Domain.SportEventAggregate.ValueObjects;
 
@@ -13,7 +14,7 @@ public class SportEvent : AggregateRoot<SportEventId>
     public string Sport { get; private set; }
     public DateTimeOffset Date { get; private set; }
     public SportEventStatus Status { get; private set; }
-    public EventCoordinates EventCoordinates { get; private set; }
+    public Coordinates Coordinates { get; private set; }
 
     public string? VenueName { get; private set; }
     public string? City { get; private set; }
@@ -33,7 +34,7 @@ public class SportEvent : AggregateRoot<SportEventId>
         string name,
         string sport,
         DateTimeOffset date,
-        EventCoordinates coordinates) : base(id)
+        Coordinates coordinates) : base(id)
     {
         if (string.IsNullOrWhiteSpace(externalId))
             throw new DomainException("ExternalId cannot be empty.");
@@ -51,7 +52,7 @@ public class SportEvent : AggregateRoot<SportEventId>
         Name = name;
         Sport = sport;
         Date = date;
-        EventCoordinates = coordinates;
+        Coordinates = coordinates;
         Status = SportEventStatus.Scheduled;
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
@@ -62,7 +63,7 @@ public class SportEvent : AggregateRoot<SportEventId>
         string name,
         string sport,
         DateTimeOffset date,
-        EventCoordinates coordinates)
+        Coordinates coordinates)
     {
         return new SportEvent(SportEventId.New(), externalId, name, sport, date, coordinates);
     }

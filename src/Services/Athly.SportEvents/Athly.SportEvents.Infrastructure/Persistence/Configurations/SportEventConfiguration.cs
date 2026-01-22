@@ -52,14 +52,14 @@ public class SportEventConfiguration : IEntityTypeConfiguration<SportEvent>
             .IsUnicode(false)
             .IsRequired();
 
-        builder.OwnsOne(e => e.EventCoordinates, cb =>
+        builder.OwnsOne(e => e.Coordinates, cb =>
         {
-            cb.Property(c => c.Longitude)
-              .HasColumnName("Longitude")
-              .IsRequired();
-
             cb.Property(c => c.Latitude)
               .HasColumnName("Latitude")
+              .IsRequired();
+
+            cb.Property(c => c.Longitude)
+              .HasColumnName("Longitude")
               .IsRequired();
         });
 

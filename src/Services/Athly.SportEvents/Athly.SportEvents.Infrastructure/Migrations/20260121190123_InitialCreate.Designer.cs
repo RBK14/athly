@@ -104,7 +104,7 @@ namespace Athly.SportEvents.Infrastructure.Migrations
 
             modelBuilder.Entity("Athly.SportEvents.Domain.SportEventAggregate.SportEvent", b =>
                 {
-                    b.OwnsOne("Athly.SportEvents.Domain.SportEventAggregate.ValueObjects.EventCoordinates", "EventCoordinates", b1 =>
+                    b.OwnsOne("Athly.SportEvents.Domain.SportEventAggregate.ValueObjects.Coordinates", "Coordinates", b1 =>
                         {
                             b1.Property<Guid>("SportEventId")
                                 .HasColumnType("uniqueidentifier");
@@ -125,7 +125,7 @@ namespace Athly.SportEvents.Infrastructure.Migrations
                                 .HasForeignKey("SportEventId");
                         });
 
-                    b.Navigation("EventCoordinates")
+                    b.Navigation("Coordinates")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

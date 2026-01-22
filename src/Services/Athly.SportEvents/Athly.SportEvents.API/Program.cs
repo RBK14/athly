@@ -1,37 +1,47 @@
-using Athly.SportEvents.Infrastructure.Persistence;
 using Athly.ServiceDefaults;
-using Microsoft.EntityFrameworkCore;
+using Athly.SportEvents.API;
+using Athly.SportEvents.Application;
+using Athly.SportEvents.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.AddServiceDefaults();
-
-builder.AddSqlServerDbContext<SportEventsContext>("sportevents-db", configureDbContextOptions: options =>
 {
-    options.UseSqlServer(sql =>
+    builder.AddServiceDefaults();
+
+    builder.Services
+        .AddPresentation()
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
+
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    builder.Services.AddCors(options =>
     {
-        sql.UseNetTopologySuite();
+        options.AddPolicy("AllowOrigins", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
     });
-});
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-app.MapDefaultEndpoints();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
+var app = builder.Build();
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+    app.UseHttpsRedirection();
+    app.UseCors("AllowOrigins");
 
-app.Run();
+    //app.UseAuthentication();
+    //app.UseAuthorization();
+
+    app.MapApiEndpoints();
+
+    app.Run();
+}
