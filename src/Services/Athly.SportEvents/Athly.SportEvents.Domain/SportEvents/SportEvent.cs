@@ -1,14 +1,14 @@
 ﻿using Athly.BuildingBlocks.Domain;
+using Athly.SportEvents.Domain.Cities;
 using Athly.SportEvents.Domain.Common.Exceptions;
 using Athly.SportEvents.Domain.Common.ValueObjects;
-using Athly.SportEvents.Domain.SportEventAggregate.Enums;
-using Athly.SportEvents.Domain.SportEventAggregate.ValueObjects;
+using Athly.SportEvents.Domain.Venues;
 
-namespace Athly.SportEvents.Domain.SportEventAggregate;
+namespace Athly.SportEvents.Domain.SportEvents;
 
 public class SportEvent : AggregateRoot<SportEventId>
 {
-    public string ExternalId { get; private set; }
+    public string ExternalId { get; init; }
 
     public string Name { get; private set; }
     public string Sport { get; private set; }
@@ -16,17 +16,16 @@ public class SportEvent : AggregateRoot<SportEventId>
     public SportEventStatus Status { get; private set; }
     public Coordinates Coordinates { get; private set; }
 
-    public string? VenueName { get; private set; }
-    public string? City { get; private set; }
-    public string? Country { get; private set; }
+    public VenueId? VenueId { get; private set; }
+    public CityId? CityId { get; private set; }
+
     public string? League { get; private set; }
     public string? Season { get; private set; }
-
     public string? Description { get; private set; }
     public string? ImageUrl { get; private set; }
 
     public DateTimeOffset CreatedAt { get; init; }
-    public DateTimeOffset UpdatedAt { get; private set; }
+    public DateTimeOffset? UpdatedAt { get; private set; }
 
     private SportEvent(
         SportEventId id,
@@ -34,13 +33,15 @@ public class SportEvent : AggregateRoot<SportEventId>
         string name,
         string sport,
         DateTimeOffset date,
-        Coordinates coordinates) : base(id)
+        Coordinates coordinates,
+        VenueId? venueId,
+        CityId? cityId) : base(id)
     {
         if (string.IsNullOrWhiteSpace(externalId))
-            throw new DomainException("ExternalId cannot be empty.");
+            throw new DomainException("External ID cannot be empty.");
 
         if (string.IsNullOrWhiteSpace(name))
-            throw new DomainException("Event Name cannot be empty.");
+            throw new DomainException("Event name cannot be empty.");
 
         if (string.IsNullOrWhiteSpace(sport))
             throw new DomainException("Sport type is required.");
@@ -54,48 +55,64 @@ public class SportEvent : AggregateRoot<SportEventId>
         Date = date;
         Coordinates = coordinates;
         Status = SportEventStatus.Scheduled;
+        VenueId = venueId;
+        CityId = cityId;
         CreatedAt = DateTimeOffset.UtcNow;
-        UpdatedAt = DateTimeOffset.UtcNow;
+        UpdatedAt = null;
     }
 
-    public static SportEvent Create(
+    public static SportEvent CreateAtVenue(
         string externalId,
         string name,
         string sport,
         DateTimeOffset date,
-        Coordinates coordinates)
+        Coordinates venueCoordinates,
+        VenueId? venueId,
+        CityId cityId)
     {
-        return new SportEvent(SportEventId.New(), externalId, name, sport, date, coordinates);
+        return new SportEvent(
+            SportEventId.New(),
+            externalId,
+            name,
+            sport,
+            date,
+            venueCoordinates,
+            venueId,
+            cityId);
     }
 
-    public void SetExternalId(string externalId)
+    public static SportEvent CreateInCity(
+        string externalId,
+        string name,
+        string sport,
+        DateTimeOffset date,
+        Coordinates cityCoordinates,
+        CityId cityId)
     {
-        if (string.IsNullOrWhiteSpace(externalId))
-            throw new DomainException("ExternalId cannot be empty.");
-
-        ExternalId = externalId;
-
-        UpdatedAt = DateTimeOffset.UtcNow;
+        return new SportEvent(
+            SportEventId.New(),
+            externalId,
+            name,
+            sport,
+            date,
+            cityCoordinates,
+            null,
+            cityId);
     }
 
-    public void SetDetails(string? league, string? season, string? venueName, string? city, string? country)
+    public void SetLeagueDetails(string? league, string? season)
     {
         League = league;
         Season = season;
-        VenueName = venueName;
-        City = city;
-        Country = country;
-
-        UpdatedAt = DateTimeOffset.UtcNow;
     }
 
     public void SetContent(string? description, string? imageUrl)
     {
         Description = description;
         ImageUrl = imageUrl;
-
-        UpdatedAt = DateTimeOffset.UtcNow;
     }
+
+    // TODO: Dorobić metody do edycji
 
     public void UpdateStatus(SportEventStatus status, DateTimeOffset? newDate = null)
     {

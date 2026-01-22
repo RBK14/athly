@@ -1,15 +1,16 @@
 ﻿using Athly.BuildingBlocks.Domain;
+using Athly.SportEvents.Domain.Common.Exceptions;
 
-namespace Athly.SportEvents.Domain.SportEventAggregate.ValueObjects;
+namespace Athly.SportEvents.Domain.SportEvents;
 
 public class SportEventId : ValueObject
 {
-    public Guid Value { get; }
+    public Guid Value { get; init; }
 
     private SportEventId(Guid value)
     {
         if (value == Guid.Empty)
-            throw new ArgumentException("Event ID cannot be empty", nameof(value));
+            throw new DomainException("Event ID cannot be empty");
 
         Value = value;
     }

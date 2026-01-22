@@ -11,8 +11,4 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Athly.BuildingBlocks.Domain\Athly.BuildingBlocks.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CityAggregate\" />
-  </ItemGroup>
-
 </Project>

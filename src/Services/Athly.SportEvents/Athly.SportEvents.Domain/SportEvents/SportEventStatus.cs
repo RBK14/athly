@@ -1,6 +1,6 @@
 ﻿using Athly.SportEvents.Domain.Common.Exceptions;
 
-namespace Athly.SportEvents.Domain.SportEventAggregate.Enums;
+namespace Athly.SportEvents.Domain.SportEvents;
 
 public enum SportEventStatus
 {

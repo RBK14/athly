@@ -49,7 +49,7 @@ namespace Athly.SportEvents.API.Apis
     public record GetNearbyEventsRequest(
         double Lat,
         double Lon,
-        double Radius = 20,
+        double Radius = 100,
         string? Sport = null,
         DateTimeOffset? From = null,
         DateTimeOffset? To = null);
